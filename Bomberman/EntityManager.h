@@ -1,11 +1,9 @@
 #pragma once
-#include "GameObject.h"
 #include "Subject.h"
 #include "TGUI/TGUI.hpp"
 #include <vector>
 #include <queue>
 #include <memory>
-#include <irrKlang.h>
 
 class GameObject;
 

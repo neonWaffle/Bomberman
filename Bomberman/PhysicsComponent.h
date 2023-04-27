@@ -1,15 +1,13 @@
 #pragma once
 #include "Component.h"
-#include "RaycastCallback.h"
 #include <vector>
 #include <box2d/b2_math.h>
 #include <box2d/b2_world.h>
 #include <box2d/b2_body.h>
 #include <box2d/b2_polygon_shape.h>
 #include <box2d/b2_fixture.h>
-#include <memory>
-#include <iostream>
 #include <b2_world_callbacks.h>
+#include <glm.hpp>
 
 class GameObject;
 

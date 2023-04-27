@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
-#include "Explosion.h"
+#include "Subject.h"
+#include <b2_math.h>
 
 class Bomb : public GameObject, public Subject
 {

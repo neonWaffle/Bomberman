@@ -1,4 +1,12 @@
 #include "Player.h"
+#include "TransformComponent.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "Animation.h"
+#include "EntityManager.h"
+#include "InputHandler.h"
+#include "Bomb.h"
+#include "TilemapConfig.h"
 
 Player::Player(glm::vec2 position, int playerId) : GameObject("Player")
 {
@@ -17,8 +25,9 @@ Player::Player(glm::vec2 position, int playerId) : GameObject("Player")
 	maxSpeed = 12.0f;
 	triedPlacingBomb = false;
 
-	int width = 36;
-	int height = 72;
+	int height = TilemapConfig::tileSize;
+	int width = height * 0.5f;
+
 	AddComponent(std::move(std::make_unique<TransformComponent>(position, 0.0f)));
 	AddComponent(std::move(std::make_unique<PhysicsComponent>(true, glm::vec2(height * 0.45f), false, false)));
 	if (playerId == 1)
@@ -61,9 +70,13 @@ void Player::Update(float deltaTime)
 	HandleControls();
 	GetComponent<PhysicsComponent>()->Move(dir * speed * deltaTime);
 	if (dir != glm::vec2(0, 0))
+	{
 		GetComponent<GraphicsComponent>()->SwitchAnimation("Walk");
+	}
 	else
+	{
 		GetComponent<GraphicsComponent>()->SwitchAnimation("Idle");
+	}
 	dir.y = 0;
 	dir.x = 0;
 }
@@ -124,7 +137,9 @@ void Player::GetDamaged()
 		livesLeft--;
 		Notify(Event::PLAYER_DAMAGED, *this);
 		if (livesLeft <= 0 && !isDead)
+		{
 			Die();
+		}
 	}
 }
 
@@ -137,7 +152,9 @@ void Player::Die()
 void Player::GetKilled()
 {
 	if (!isDead)
+	{
 		Die();
+	}
 }
 
 int Player::GetPlayerId()
@@ -150,9 +167,13 @@ void Player::HandleControls()
 	if (playerId == 1)
 	{
 		if (InputHandler::GetKey(sf::Keyboard::W))
+		{
 			dir.y = -1;
+		}
 		if (InputHandler::GetKey(sf::Keyboard::S))
+		{
 			dir.y = 1;
+		}
 		if (InputHandler::GetKey(sf::Keyboard::A))
 		{
 			GetComponent<GraphicsComponent>()->Flip(true);
@@ -169,14 +190,20 @@ void Player::HandleControls()
 			PlaceBomb();
 		}
 		if (triedPlacingBomb && !InputHandler::GetKey(sf::Keyboard::Space))
+		{
 			triedPlacingBomb = false;
+		}
 	}
 	else if (playerId == 2)
 	{
 		if (InputHandler::GetKey(sf::Keyboard::Up))
+		{
 			dir.y = -1;
+		}
 		if (InputHandler::GetKey(sf::Keyboard::Down))
+		{
 			dir.y = 1;
+		}
 		if (InputHandler::GetKey(sf::Keyboard::Left))
 		{
 			GetComponent<GraphicsComponent>()->Flip(true);
@@ -193,7 +220,9 @@ void Player::HandleControls()
 			PlaceBomb();
 		}
 		if (triedPlacingBomb && !InputHandler::GetKey(sf::Keyboard::Slash))
+		{
 			triedPlacingBomb = false;
+		}
 	}
 }
 

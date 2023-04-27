@@ -1,4 +1,12 @@
 #include "TilemapManager.h"
+#include "WallTile.h"
+#include "FloorTile.h"
+#include "BackgroundTile.h"
+#include "EndTile.h"
+#include "BoxTile.h"
+#include "SpawnPoint.h"
+#include "TilemapConfig.h"
+#include "EntityManager.h"
 
 TilemapManager* TilemapManager::instance;
 
@@ -10,13 +18,21 @@ TilemapManager::TilemapManager()
 void TilemapManager::DrawBoundaries()
 {
     for (int y = 0; y <= TilemapConfig::yTileNumber; y++)
+    {
         EntityManager::GetInstance()->AddGameObject(std::make_unique<WallTile>(GetTilePosition(-1, y - 1)));
+    }
     for (int y = 0; y <= TilemapConfig::yTileNumber; y++)
+    {
         EntityManager::GetInstance()->AddGameObject(std::make_unique<WallTile>(GetTilePosition(TilemapConfig::xTileNumber, y - 1)));
+    }
     for (int x = 0; x <= TilemapConfig::xTileNumber; x++)
+    {
         EntityManager::GetInstance()->AddGameObject(std::make_unique<WallTile>(GetTilePosition(x - 1, -1)));
+    }
     for (int x = 0; x <= TilemapConfig::xTileNumber + 1; x++)
+    {
         EntityManager::GetInstance()->AddGameObject(std::make_unique<WallTile>(GetTilePosition(x - 1, TilemapConfig::yTileNumber)));
+    }
 }
 
 void TilemapManager::DrawBackground()
@@ -25,12 +41,14 @@ void TilemapManager::DrawBackground()
     int yTiles = std::ceil(TilemapConfig::screenHeight / TilemapConfig::tileSize);
 
     //To avoid placing background tiles where the tilemap and its boundary is going to be
-    int yGapStart = (yTiles - TilemapConfig::yTileNumber - 1) * 0.5f;
+    int yGapStart = std::floor(yTiles - TilemapConfig::yTileNumber - 1) * 0.5f;
     int yGapEnd = yTiles - yGapStart;
-    int xGapStart = (xTiles - TilemapConfig::xTileNumber - 1) * 0.5f;
+    int xGapStart = std::floor(xTiles - TilemapConfig::xTileNumber - 1) * 0.5f;
     int xGapEnd = xTiles - xGapStart;
+
     float xDiff = (float)TilemapConfig::xTilemapOffset / TilemapConfig::tileSize - (int)(TilemapConfig::xTilemapOffset / TilemapConfig::tileSize);
     float yDiff = (float)TilemapConfig::yTilemapOffset / TilemapConfig::tileSize - (int)(TilemapConfig::yTilemapOffset / TilemapConfig::tileSize);
+
     glm::vec2 offset = glm::vec2(xDiff > 0 ? TilemapConfig::tileSize * xDiff - TilemapConfig::tileSize * 0.5f : TilemapConfig::tileSize * 0.5f,
         yDiff > 0 ? TilemapConfig::tileSize * yDiff - TilemapConfig::tileSize * 0.5f : TilemapConfig::tileSize * 0.5f);
 
@@ -38,8 +56,9 @@ void TilemapManager::DrawBackground()
     {
         for (int x = 0; x <= xTiles; x++)
         {
-            if (y >= yGapStart && y <= yGapEnd && x >= xGapStart && x <= xGapEnd)
+            if (y >= yGapStart && y < yGapEnd && x >= xGapStart && x < xGapEnd)
                 continue;
+          
             EntityManager::GetInstance()->AddGameObject(
                 std::make_unique<BackgroundTile>(glm::vec2(TilemapConfig::tileSize * x, TilemapConfig::tileSize * y) + offset,
                 TilemapConfig::tileSize));
@@ -53,6 +72,7 @@ void TilemapManager::DrawFloor()
     {
         std::vector<char> row;
         std::vector<GameObject*> objRow;
+
         for (int x = 0; x < TilemapConfig::xTileNumber; x++)
         {
             std::unique_ptr<GameObject> tile = std::make_unique<FloorTile>(GetTilePosition(x, y));
@@ -60,6 +80,7 @@ void TilemapManager::DrawFloor()
             EntityManager::GetInstance()->AddGameObject(std::move(tile));
             row.emplace_back('F');
         }
+
         currentTilemap.emplace_back(row);
         tilemapObjects.emplace_back(objRow);
     }
@@ -98,7 +119,9 @@ void TilemapManager::FillIn()
             yFillId--;
         }
         else
+        {
             xFillId--;
+        }
         break;
     case CloseInDirection::RIGHT:
         EntityManager::GetInstance()->AddGameObject(std::make_unique<EndTile>(GetTilePosition(xFillId, yFillId)));
@@ -108,7 +131,9 @@ void TilemapManager::FillIn()
             yFillId++;
         }
         else
+        {
             xFillId++;
+        }
         break;
     case CloseInDirection::UP:
         EntityManager::GetInstance()->AddGameObject(std::make_unique<EndTile>(GetTilePosition(xFillId, yFillId)));
@@ -119,7 +144,9 @@ void TilemapManager::FillIn()
             xFillId++;
         }
         else
+        {
             yFillId--;
+        }
         break;
     case CloseInDirection::DOWN:
         EntityManager::GetInstance()->AddGameObject(std::make_unique<EndTile>(GetTilePosition(xFillId, yFillId)));
@@ -129,7 +156,9 @@ void TilemapManager::FillIn()
             xFillId--;
         }
         else
+        {
             yFillId++;
+        }
         break;
     }
 }
@@ -162,7 +191,9 @@ std::vector<std::vector<char>> TilemapManager::ReadFile(std::string filePath)
         {
             std::vector<char> row;
             for (char& c : line)
+            {
                 row.push_back(c);
+            }
             tilemap.push_back(row);
         }
         file.close();
@@ -191,111 +222,44 @@ void TilemapManager::SaveFile(std::string mapTitle)
 bool TilemapManager::IsValidTilemap(std::vector<std::vector<char>> tilemap)
 {
     if (tilemap.size() != TilemapConfig::yTileNumber)
+    {
         return false;
+    }
+
     int p1SpawnPoints = 0;
     int p2SpawnPoints = 0;
+
     for (int y = 0; y < tilemap.size(); y++)
     {
         for (int x = 0; x < tilemap[y].size(); x++)
         {
             if (tilemap[y].size() != TilemapConfig::xTileNumber)
+            {
                 return false;
+            }
             if (tilemap[y][x] == '1')
             {
                 p1SpawnPoints++;
                 if (p1SpawnPoints > 1)
+                {
                     return false;
+                }
             }
             else if (tilemap[y][x] == '2')
             {
                 p2SpawnPoints++;
                 if (p2SpawnPoints > 1)
+                {
                     return false;
+                }
             }
             else if (tilemap[y][x] != 'W' && tilemap[y][x] != 'F' && tilemap[y][x] != 'B')
+            {
                 return false;
+            }
         }
     }
     return p1SpawnPoints == 1 && p2SpawnPoints == 1;
-}
-
-void TilemapManager::LoadTilemap(std::vector<std::vector<char>> tilemap, bool inEditor)
-{
-    if (!inEditor)
-    {
-        DrawBackground();
-        for (int y = 0; y < TilemapConfig::yTileNumber; y++)
-        {
-            for (int x = 0; x < TilemapConfig::xTileNumber; x++)
-            {
-                switch (tilemap[y][x])
-                {
-                case 'W':
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<WallTile>(GetTilePosition(x, y)));
-                    break;
-                case 'F':
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
-                    break;
-                case 'B':
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<BoxTile>(GetTilePosition(x, y)));
-                    break;
-                case '1':
-                    playerStartPoints[0] = GetTilePosition(x, y);
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
-                    break;
-                case '2':
-                    playerStartPoints[1] = GetTilePosition(x, y);
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
-                    break;
-                }
-            }
-        }
-    }
-    else
-    {
-        for (int y = 0; y < TilemapConfig::yTileNumber; y++)
-        {
-            std::vector<GameObject*> row;
-            for (int x = 0; x < TilemapConfig::xTileNumber; x++)
-            {
-                std::unique_ptr<GameObject> tile;
-                switch (tilemap[y][x])
-                {
-                case 'W':
-                    tile = std::make_unique<WallTile>(GetTilePosition(x, y));
-                    row.emplace_back(tile.get());
-                    EntityManager::GetInstance()->AddGameObject(std::move(tile));
-                    break;
-                case 'F':
-                    tile = std::make_unique<FloorTile>(GetTilePosition(x, y));
-                    row.emplace_back(tile.get());
-                    EntityManager::GetInstance()->AddGameObject(std::move(tile));
-                    break;
-                case 'B':
-                    tile = std::make_unique<BoxTile>(GetTilePosition(x, y));
-                    row.emplace_back(tile.get());
-                    EntityManager::GetInstance()->AddGameObject(std::move(tile));
-                    break;
-                case '1':
-                    tile = std::make_unique<FloorTile>(GetTilePosition(x, y));
-                    row.emplace_back(tile.get());
-                    EntityManager::GetInstance()->AddGameObject(std::move(tile));
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<SpawnPoint>(GetTilePosition(x, y), 1));
-                    break;
-                case '2':
-                    tile = std::make_unique<FloorTile>(GetTilePosition(x, y));
-                    row.emplace_back(tile.get());
-                    EntityManager::GetInstance()->AddGameObject(std::move(tile));
-                    EntityManager::GetInstance()->AddGameObject(std::make_unique<SpawnPoint>(GetTilePosition(x, y), 2));
-                    break;
-                }
-            }
-            tilemapObjects.emplace_back(row);
-        }
-    }
-    currentTilemap = tilemap;
-    DrawBoundaries();
 }
 
 glm::vec2 TilemapManager::GetTilePosition(int xId, int yId)
@@ -308,7 +272,9 @@ glm::vec2 TilemapManager::GetTilePosition(int xId, int yId)
 TilemapManager* TilemapManager::GetInstance()
 {
     if (instance == nullptr)
+    {
         instance = new TilemapManager();
+    }
     return instance;
 }
 
@@ -323,6 +289,7 @@ void TilemapManager::PlaceTile(glm::vec2 pos)
     int y = (pos.y - TilemapConfig::yTilemapOffset) / TilemapConfig::tileSize;
     EntityManager::GetInstance()->RemoveGameObject(tilemapObjects[y][x]);
     pos = GetTilePosition(x, y);
+
     switch (selectedTile)
     {
         case TileType::BOX:
@@ -380,7 +347,86 @@ void TilemapManager::SaveTile(char tileType, glm::vec2 pos)
     currentTilemap[x][y] = tileType;
 }
 
-bool TilemapManager::PlayCustomTilemap(std::string tilemapName)
+void TilemapManager::LoadTilemapEditor(std::vector<std::vector<char>> tilemap)
+{
+    for (int y = 0; y < TilemapConfig::yTileNumber; y++)
+    {
+        std::vector<GameObject*> row;
+        for (int x = 0; x < TilemapConfig::xTileNumber; x++)
+        {
+            std::unique_ptr<GameObject> tile;
+            switch (tilemap[y][x])
+            {
+            case 'W':
+                tile = std::make_unique<WallTile>(GetTilePosition(x, y));
+                row.emplace_back(tile.get());
+                EntityManager::GetInstance()->AddGameObject(std::move(tile));
+                break;
+            case 'F':
+                tile = std::make_unique<FloorTile>(GetTilePosition(x, y));
+                row.emplace_back(tile.get());
+                EntityManager::GetInstance()->AddGameObject(std::move(tile));
+                break;
+            case 'B':
+                tile = std::make_unique<BoxTile>(GetTilePosition(x, y));
+                row.emplace_back(tile.get());
+                EntityManager::GetInstance()->AddGameObject(std::move(tile));
+                break;
+            case '1':
+                tile = std::make_unique<FloorTile>(GetTilePosition(x, y));
+                row.emplace_back(tile.get());
+                EntityManager::GetInstance()->AddGameObject(std::move(tile));
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<SpawnPoint>(GetTilePosition(x, y), 1));
+                break;
+            case '2':
+                tile = std::make_unique<FloorTile>(GetTilePosition(x, y));
+                row.emplace_back(tile.get());
+                EntityManager::GetInstance()->AddGameObject(std::move(tile));
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<SpawnPoint>(GetTilePosition(x, y), 2));
+                break;
+            }
+        }
+        tilemapObjects.emplace_back(row);
+    }
+    currentTilemap = tilemap;
+    DrawBoundaries();
+}
+
+void TilemapManager::LoadTilemapGameplay(std::vector<std::vector<char>> tilemap)
+{
+    DrawBackground();
+    for (int y = 0; y < TilemapConfig::yTileNumber; y++)
+    {
+        for (int x = 0; x < TilemapConfig::xTileNumber; x++)
+        {
+            switch (tilemap[y][x])
+            {
+            case 'W':
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<WallTile>(GetTilePosition(x, y)));
+                break;
+            case 'F':
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
+                break;
+            case 'B':
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<BoxTile>(GetTilePosition(x, y)));
+                break;
+            case '1':
+                playerStartPoints[0] = GetTilePosition(x, y);
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
+                break;
+            case '2':
+                playerStartPoints[1] = GetTilePosition(x, y);
+                EntityManager::GetInstance()->AddGameObject(std::make_unique<FloorTile>(GetTilePosition(x, y)));
+                break;
+            }
+        }
+    }
+    currentTilemap = tilemap;
+    DrawBoundaries();
+}
+
+bool TilemapManager::PlayInCustomTilemap(std::string tilemapName)
 {
     std::string filePath = "Assets/Levels/Custom/" + tilemapName + ".map";
     std::vector<std::vector<char>> tilemap = ReadFile(filePath);
@@ -404,7 +450,7 @@ void TilemapManager::ReloadTilemap()
     DrawBaseTilemap();
 }
 
-void TilemapManager::PlayDefaultTilemap()
+void TilemapManager::PlayInDefaultTilemap()
 {
     PlayInTilemap(defaultMapPath);
 }
@@ -414,7 +460,7 @@ bool TilemapManager::EditTilemap(std::string filePath)
     std::vector<std::vector<char>> tilemap = ReadFile(filePath);
     if (IsValidTilemap(tilemap))
     {
-        LoadTilemap(tilemap, true);
+        LoadTilemapEditor(tilemap);
         return true;
     }
     return false;
@@ -427,17 +473,26 @@ void TilemapManager::PlayInTilemap(std::string tilemapPath)
     xFillLoops = 0;
     yFillLoops = 0;
     currentDir = CloseInDirection::RIGHT;
-    currentMapName = defaultMapPath;
+    currentMapPath = tilemapPath;
+
     std::vector<std::vector<char>> tilemap = ReadFile(tilemapPath);
-    LoadTilemap(tilemap, false);
+    LoadTilemapGameplay(tilemap);
     Notify(Event::START_GAME);
 }
 
 void TilemapManager::Replay()
 {
-    if (currentMapName != defaultMapPath)
-        PlayCustomTilemap(currentMapName);
+    if (currentMapPath != defaultMapPath)
+    {
+        std::string mapTitle = currentMapPath;
+        mapTitle = currentMapPath.substr(currentMapPath.find_last_of("/") + 1);
+        mapTitle = mapTitle.substr(mapTitle.find_last_of("\\") + 1);
+        mapTitle = mapTitle.substr(0, mapTitle.size() - 4);
+        PlayInCustomTilemap(mapTitle);
+    }
     else
-        PlayDefaultTilemap();
+    {
+        PlayInDefaultTilemap();
+    }
     Notify(Event::START_GAME);
 }

@@ -1,9 +1,7 @@
 #pragma once
 #include "State.h"
-#include "MainMenuState.h"
-#include "Observer.h"
 #include "TilemapEditorUI.h"
-#include "TilemapManager.h"
+#include <glm.hpp>
 
 class TilemapEditorState : public State
 {

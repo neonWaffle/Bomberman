@@ -1,4 +1,5 @@
 #include "EntityManager.h"
+#include "GameObject.h"
 
 EntityManager* EntityManager::instance;
 
@@ -6,7 +7,9 @@ void EntityManager::AddGameObject(std::unique_ptr<GameObject> object)
 {
 	auto subject = dynamic_cast<Subject*>(object.get());
 	if (subject != nullptr)
+	{
 		subject->AddObserver(this);
+	}
 	objectsToAdd.push(std::move(object));
 }
 
@@ -19,7 +22,9 @@ void EntityManager::RemoveGameObject(GameObject* object)
 {
  	auto subject = dynamic_cast<Subject*>(object);
 	if (subject != nullptr)
+	{
 		subject->RemoveObserver(this);
+	}
 	objectsToRemove.emplace_back(object);
 }
 
@@ -47,6 +52,7 @@ void EntityManager::ClearGameObjects()
 		removeAll = false;
 		return;
 	}
+
 	for (int i = 0; i < objectsToRemove.size(); i++)
 	{
 		for (int j = 0; j < gameObjects.size(); j++)
@@ -91,7 +97,9 @@ void EntityManager::AddGameObjects()
 EntityManager* EntityManager::GetInstance()
 {
 	if (instance == nullptr)
+	{
 		instance = new EntityManager();
+	}
 	return instance;
 }
 

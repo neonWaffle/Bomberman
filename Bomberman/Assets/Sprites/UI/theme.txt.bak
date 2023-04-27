@@ -29,7 +29,7 @@ Panel {
 }
 
 ScrollablePanel {
-	BackgroundColor = rgb(30, 30, 30);
+	BackgroundColor = rgb(20, 20, 20);
     TextureBackground = "editorPanel.png";
 	Scrollbar = &Scrollbar;
 	ScrollbarWidth = 30;

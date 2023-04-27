@@ -1,4 +1,7 @@
 #include "PhysicsComponent.h"
+#include "RaycastCallback.h"
+#include "Converter.h"
+#include <glm.hpp>
 
 b2Body* PhysicsComponent::GetBody()
 {

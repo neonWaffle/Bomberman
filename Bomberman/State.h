@@ -2,7 +2,6 @@
 #include "Observer.h"
 #include "Subject.h"
 #include "StateMachine.h"
-#include "TilemapConfig.h"
 #include <SFML/Graphics.hpp>
 #include <memory>
 

@@ -1,10 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "EntityManager.h"
 #include "Observer.h"
-#include <stdio.h>
-#include <iostream>
-#include "glm/gtx/string_cast.hpp"
 
 class Subsystem : public Observer
 {

@@ -1,4 +1,7 @@
 #include "SpawnPoint.h"
+#include "TransformComponent.h"
+#include "GraphicsComponent.h"
+#include "TilemapConfig.h"
 
 SpawnPoint::SpawnPoint(glm::vec2 pos, int playerId)
 {

@@ -1,4 +1,13 @@
 #include "GameEngine.h"
+#include "StateMachine.h"
+#include "AudioSubsystem.h"
+#include "GraphicsSubsystem.h"
+#include "PhysicsSubsystem.h"
+#include "InputHandler.h"
+#include "EntityManager.h"
+#include "TilemapManager.h"
+#include "MainMenuState.h"
+#include "TilemapConfig.h"
 
 GameEngine::GameEngine()
 {
@@ -6,8 +15,10 @@ GameEngine::GameEngine()
 	prevTime = currentTime;
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(TilemapConfig::screenWidth, TilemapConfig::screenHeight), "Bomberman");
 	stateMachine = std::make_shared<StateMachine>();
+
 	subsystems.emplace_back(std::move(std::make_unique<GraphicsSubsystem>(window)));
 	subsystems.emplace_back(std::make_unique<PhysicsSubsystem>());
+
 	auto audioSubsystem = std::make_unique<AudioSubsystem>();
 	audioSubsystem->AddSound("matchSong", "Assets/Audio/matchSong.mp3");
 	audioSubsystem->AddSound("mainMenuSong", "Assets/Audio/mainMenuSong.mp3");
@@ -48,7 +59,9 @@ void GameEngine::Run()
 		stateMachine->Update(deltaTime);
 
 		for (auto&& subsystem : subsystems)
+		{
 			subsystem->Update(deltaTime);
+		}
 
 		EntityManager::GetInstance()->ClearGameObjects();
 		EntityManager::GetInstance()->ClearGUIElements();
@@ -59,5 +72,7 @@ void GameEngine::Run()
 void GameEngine::Close()
 {
 	for (auto&& subsystem : subsystems)
+	{
 		subsystem->Close();
+	}
 }

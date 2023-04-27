@@ -1,4 +1,7 @@
 #include "GameOverState.h"
+#include "GameplayState.h"
+#include "MainMenuState.h"
+#include "TilemapManager.h"
 
 GameOverState::GameOverState(std::shared_ptr<StateMachine> stateMachine, std::shared_ptr<sf::RenderWindow> window, int winnerId) : State(stateMachine, window)
 {

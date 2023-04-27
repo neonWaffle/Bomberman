@@ -1,4 +1,7 @@
 #include "PickupSpeedBoost.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "EntityManager.h"
 
 PickupSpeedBoost::PickupSpeedBoost(glm::vec2 position) : Pickup(position)
 {

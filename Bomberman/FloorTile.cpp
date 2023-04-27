@@ -1,4 +1,7 @@
 #include "FloorTile.h"
+#include "TransformComponent.h"
+#include "GraphicsComponent.h"
+#include "TilemapConfig.h"
 
 FloorTile::FloorTile(glm::vec2 position) : GameObject()
 {

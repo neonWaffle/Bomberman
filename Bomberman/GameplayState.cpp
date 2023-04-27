@@ -1,4 +1,9 @@
 #include "GameplayState.h"
+#include "MainMenuState.h"
+#include "GameOverState.h"
+#include "TilemapManager.h"
+#include "TilemapConfig.h"
+#include "EntityManager.h"
 
 GameplayState::GameplayState(std::shared_ptr<StateMachine> stateMachine, std::shared_ptr<sf::RenderWindow> window) : State(stateMachine, window)
 {
@@ -24,6 +29,7 @@ void GameplayState::EnterState()
 		players.emplace_back(player.get());
 		EntityManager::GetInstance()->AddGameObject(std::move(player));
 	}
+
 	EntityManager::GetInstance()->AddObserver(this);
 	gameplayUI = std::make_unique<GameplayUI>(players);
 	gameplayUI->Open();
@@ -45,11 +51,15 @@ void GameplayState::UpdateState(float deltaTime)
 			TilemapManager::GetInstance()->FillIn();
 		}
 		if (matchDuration - matchTimer <= 0)
+		{
 			stateMachine->SwitchState(std::make_unique<GameOverState>(stateMachine, window, alivePlayerIds[0]));
+		}
 	}
 
 	for (auto&& gameObject : EntityManager::GetInstance()->gameObjects)
+	{
 		gameObject->Update(deltaTime);
+	}
 }
 
 void GameplayState::ExitState()
@@ -69,7 +79,9 @@ void GameplayState::OnNotify(Event event, GameObject& gameObject)
 		{
 			alivePlayerIds.erase(std::remove(alivePlayerIds.begin(), alivePlayerIds.end(), player->GetPlayerId()));
 			if (alivePlayerIds.size() == 1)
+			{
 				stateMachine->SwitchState(std::make_unique<GameOverState>(stateMachine, window, alivePlayerIds[0]));
+			}
 		}
 		break;
 	}

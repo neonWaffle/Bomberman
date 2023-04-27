@@ -1,4 +1,6 @@
 #include "BackgroundTile.h"
+#include "TransformComponent.h"
+#include "GraphicsComponent.h"
 
 BackgroundTile::BackgroundTile(glm::vec2 position, int size) : GameObject()
 {

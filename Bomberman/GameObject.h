@@ -1,15 +1,8 @@
 #pragma once
-#include "Subject.h"
-#include "PhysicsComponent.h"
-#include "GraphicsComponent.h"
-#include "TransformComponent.h"
-#include "InputHandler.h"
 #include "Component.h"
-#include "TilemapConfig.h"
 #include "glm/gtx/string_cast.hpp"
 #include <vector>
 #include <memory>
-#include "EntityManager.h"
 
 class GameObject
 {

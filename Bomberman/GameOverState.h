@@ -1,7 +1,5 @@
 #pragma once
 #include "State.h"
-#include "GameplayState.h"
-#include "MainMenuState.h"
 #include "GameOverScreen.h"
 
 class GameOverState : public State

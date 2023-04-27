@@ -1,4 +1,8 @@
 #include "WallTile.h"
+#include "TransformComponent.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "TilemapConfig.h"
 
 WallTile::WallTile(glm::vec2 position) : GameObject("WallTile")
 {

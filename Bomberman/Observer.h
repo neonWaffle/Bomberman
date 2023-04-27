@@ -1,6 +1,5 @@
 #pragma once
 #include "Event.h"
-#include <vector>
 #include <TGUI/TGUI.hpp>
 
 class GameObject;

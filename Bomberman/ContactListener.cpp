@@ -1,4 +1,11 @@
 #include "ContactListener.h"
+#include "BoxTile.h"
+#include "Pickup.h"
+#include "Bomb.h"
+#include "Player.h"
+#include "EntityManager.h"
+#include "TransformComponent.h"
+#include "TilemapConfig.h"
 
 void ContactListener::BeginContact(b2Contact* contact)
 {
@@ -11,92 +18,95 @@ void ContactListener::BeginContact(b2Contact* contact)
     GameObject* objectA = reinterpret_cast<GameObject*>(bodyAData.pointer);
     GameObject* objectB = reinterpret_cast<GameObject*>(bodyBData.pointer);
 
-    if (objectA->GetTag() == "Player")
+    std::string objectATag = objectA->GetTag();
+    std::string objectBTag = objectB->GetTag();
+
+    if (objectATag == "Player")
     {
-        if (objectB->GetTag() == "Explosion")
+        if (objectBTag == "Explosion")
         {
             Player* player = dynamic_cast<Player*>(objectA);
             player->GetDamaged();
         }
-        else if (objectB->GetTag() == "Pickup")
+        else if (objectBTag == "Pickup")
         {
             Pickup* pickup = dynamic_cast<Pickup*>(objectB);
             pickup->GetPickedUp(*dynamic_cast<Player*>(objectA));
         }
-        else if (objectB->GetTag() == "EndTile" && IsOnSameTile(*objectA, *objectB))
+        else if (objectBTag == "EndTile" && IsOnSameTile(*objectA, *objectB))
         {
             Player* player = dynamic_cast<Player*>(objectA);
             player->GetKilled();
         }
     }
-    else if (objectA->GetTag() == "Explosion")
+    else if (objectATag == "Explosion")
     {
-        if (objectB->GetTag() == "Player")
+        if (objectBTag == "Player")
         {
             Player* player = dynamic_cast<Player*>(objectB);
             player->GetDamaged();
         }
-        else if (objectB->GetTag() == "BoxTile")
+        else if (objectBTag == "BoxTile")
         {
             BoxTile* box = dynamic_cast<BoxTile*>(objectB);
             box->GetDestroyed();
         }
-        else if (objectB->GetTag() == "Bomb")
+        else if (objectBTag == "Bomb")
         {
             Bomb* bomb = dynamic_cast<Bomb*>(objectB);
             bomb->Explode();
         }
-        else if (objectB->GetTag() == "EndTile")
+        else if (objectBTag == "EndTile")
         {
             EntityManager::GetInstance()->RemoveGameObject(objectA);
         }
     }
-    else if (objectA->GetTag() == "Bomb")
+    else if (objectATag == "Bomb")
     {
-        if (objectB->GetTag() == "Explosion" && IsOnSameTile(*objectA, *objectB))
+        if (objectBTag == "Explosion" && IsOnSameTile(*objectA, *objectB))
         {
             Bomb* bomb = dynamic_cast<Bomb*>(objectA);
             bomb->Explode();
         }
-        else if (objectB->GetTag() == "EndTile" && IsOnSameTile(*objectA, *objectB))
+        else if (objectBTag == "EndTile" && IsOnSameTile(*objectA, *objectB))
         {
             Bomb* bomb = dynamic_cast<Bomb*>(objectA);
             bomb->Detonate();
         }
     }
-    else if (objectA->GetTag() == "BoxTile")
+    else if (objectATag == "BoxTile")
     {
-        if (objectB->GetTag() == "Explosion" && IsOnSameTile(*objectA, *objectB))
+        if (objectBTag == "Explosion" && IsOnSameTile(*objectA, *objectB))
         {
             BoxTile* box = dynamic_cast<BoxTile*>(objectA);
             box->GetDestroyed();
         }
     }
-    else if (objectA->GetTag() == "Pickup")
+    else if (objectATag == "Pickup")
     {
-        if (objectB->GetTag() == "Player")
+        if (objectBTag == "Player")
         {
             Pickup* pickup = dynamic_cast<Pickup*>(objectA);
             pickup->GetPickedUp(*dynamic_cast<Player*>(objectB));
         }
-        else if (objectB->GetTag() == "EndTile" && IsOnSameTile(*objectA, *objectB))
+        else if (objectBTag == "EndTile" && IsOnSameTile(*objectA, *objectB))
         {
             EntityManager::GetInstance()->RemoveGameObject(objectA);
         }
     }
-    else if (objectA->GetTag() == "EndTile" && IsOnSameTile(*objectA, *objectB))
+    else if (objectATag == "EndTile" && IsOnSameTile(*objectA, *objectB))
     {
-        if (objectB->GetTag() == "Player")
+        if (objectBTag == "Player")
         {
             Player* player = dynamic_cast<Player*>(objectB);
             player->GetKilled();
         }
-        else if (objectB->GetTag() == "Bomb")
+        else if (objectBTag == "Bomb")
         {
             Bomb* bomb = dynamic_cast<Bomb*>(objectB);
             bomb->Detonate();
         }
-        else if (objectB->GetTag() != "EndTile")
+        else if (objectBTag != "EndTile")
         {
             EntityManager::GetInstance()->RemoveGameObject(objectB);
         }

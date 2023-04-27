@@ -1,4 +1,5 @@
 #include "GraphicsComponent.h"
+#include "glm.hpp"
 
 GraphicsComponent::GraphicsComponent(std::string pathName, int xSprites, int ySprites, int targetWidth, int targetHeight)
 {
@@ -25,18 +26,26 @@ sf::Sprite* GraphicsComponent::GetSprite(glm::vec2 position, float deltaTime)
 		sf::Sprite* sprite = animations[currentAnimTitle]->PlayAnimation(deltaTime);
 		sprite->setPosition(position.x, position.y);
 		if (isFlipped && sprite->getScale().x > 0)
+		{
 			sprite->setScale(-sprite->getScale().x, sprite->getScale().y);
+		}
 		else if (!isFlipped && sprite->getScale().x < 0)
+		{
 			sprite->setScale(-sprite->getScale().x, sprite->getScale().y);
+		}
 		return sprite;
 	}
 	else
 	{
 		sprite->setPosition(position.x, position.y);
 		if (isFlipped && sprite->getScale().x > 0)
+		{
 			sprite->setScale(-sprite->getScale().x, sprite->getScale().y);
+		}
 		else if (!isFlipped && sprite->getScale().x < 0)
+		{
 			sprite->setScale(-sprite->getScale().x, sprite->getScale().y);
+		}
 		return sprite.get();
 	}
 }
@@ -50,6 +59,7 @@ void GraphicsComponent::SwitchAnimation(std::string title)
 {
 	if (currentAnimTitle == title)
 		return;
+
 	currentAnimTitle = title;
 	playAnimation = true;
 }

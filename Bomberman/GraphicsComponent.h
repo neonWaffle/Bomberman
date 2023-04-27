@@ -1,8 +1,8 @@
 #pragma once
 #include "Component.h"
 #include "Animation.h"
-#include <SFML/Graphics.hpp>
 #include <unordered_map>
+#include <glm.hpp>
 
 class GraphicsComponent : public Component
 {

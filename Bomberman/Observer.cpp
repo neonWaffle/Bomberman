@@ -1,4 +1,5 @@
 #include "Observer.h"
+#include <vector>
 
 void Observer::OnNotify(Event event)
 {

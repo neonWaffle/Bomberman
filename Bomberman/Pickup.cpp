@@ -1,4 +1,5 @@
 #include "Pickup.h"
+#include "TransformComponent.h"
 
 Pickup::Pickup(glm::vec2 position) : GameObject("Pickup")
 {

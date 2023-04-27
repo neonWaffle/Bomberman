@@ -3,12 +3,17 @@
 sf::Sprite* Animation::PlayAnimation(float deltaTime)
 {
     if (isFinished)
+    {
         return sprite.get();
+    }
+
     timer += deltaTime;
     if (timer >= duration / frames.size())
     {
         if (!shouldLoop && currentFrame == frames.size() - 1)
+        {
             isFinished = true;
+        }
         sprite->setTextureRect(frames[currentFrame]);
         currentFrame = currentFrame == frames.size() - 1 ? currentFrame = 0 : currentFrame + 1;
         timer = 0;
@@ -20,12 +25,15 @@ Animation::Animation(std::string pathName, int xSprites, int ySprites, int targe
 {
     this->duration = duration;
     this->shouldLoop = shouldLoop;
+
     texture = std::make_unique<sf::Texture>();
     texture->loadFromFile(pathName);
+
     int spriteWidth = texture->getSize().x / xSprites;
     int spriteHeight = texture->getSize().y / ySprites;
     sprite = std::make_unique<sf::Sprite>(*texture, sf::IntRect(0, 0, spriteWidth, spriteHeight));
     sprite->setPosition(0.0f, 0.0f);
+
     float xScale = (float)targetWidth / spriteWidth;
     float yScale = (float)targetHeight / spriteHeight;
     sprite->setScale(xScale, yScale);

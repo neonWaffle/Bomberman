@@ -1,4 +1,7 @@
 #include "GraphicsSubsystem.h"
+#include "EntityManager.h"
+#include "GraphicsComponent.h"
+#include "TransformComponent.h"
 
 GraphicsSubsystem::GraphicsSubsystem(std::shared_ptr<sf::RenderWindow> window)
 {
@@ -19,15 +22,20 @@ void GraphicsSubsystem::Update(float deltaTime)
     {
         gui->handleEvent(event);
         if (event.type == sf::Event::Closed)
+        {
             window->close();
+        }
     }
+
     window->clear();
+
     for (auto&& obj : EntityManager::GetInstance()->gameObjects)
     {
         auto* graphicsComponent = obj->GetComponent<GraphicsComponent>();
         auto* transformComponent = obj->GetComponent<TransformComponent>();
         window->draw(*graphicsComponent->GetSprite(transformComponent->GetPosition(), deltaTime));
     }
+
     gui->draw();
     window->display();
 }

@@ -1,17 +1,28 @@
 #include "Bomb.h"
+#include "Explosion.h"
+#include "TilemapConfig.h"
+#include "TransformComponent.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "Animation.h"
+#include "EntityManager.h"
+#include "Converter.h"
 
 Bomb::Bomb(glm::vec2 position, int strength) : GameObject("Bomb")
 {
 	//Makes the bomb snap to the tile
 	position = glm::vec2((int)((position.x - TilemapConfig::xTilemapOffset) / TilemapConfig::tileSize) * TilemapConfig::tileSize + TilemapConfig::tileSize * 0.5f + TilemapConfig::xTilemapOffset,
 		(int)((position.y - TilemapConfig::yTilemapOffset) / TilemapConfig::tileSize) * TilemapConfig::tileSize + TilemapConfig::tileSize * 0.5f + TilemapConfig::yTilemapOffset);
+
 	AddComponent(std::make_unique<TransformComponent>(position, 0.0f));
 	AddComponent(std::make_unique<PhysicsComponent>(true, glm::vec2(TilemapConfig::tileSize * 0.5f, TilemapConfig::tileSize * 0.5f), true));
-	AddComponent(std::make_unique<GraphicsComponent>("Assets/Sprites/Objects/bomb.png", 1, 1, 48, 48));
+	AddComponent(std::make_unique<GraphicsComponent>("Assets/Sprites/Objects/bomb.png", 1, 1, TilemapConfig::tileSize, TilemapConfig::tileSize));
+
 	auto* graphicsComponent = GetComponent<GraphicsComponent>();
-	auto animation = std::make_unique<Animation>("Assets/Sprites/Objects/bomb.png", 3, 1, 48, 48, 0.8f);
+	auto animation = std::make_unique<Animation>("Assets/Sprites/Objects/bomb.png", 3, 1, TilemapConfig::tileSize, TilemapConfig::tileSize, 0.8f);
 	graphicsComponent->AddAnimation("Idle", std::move(animation));
 	graphicsComponent->SwitchAnimation("Idle");
+
 	timeTilExplosion = 3.0f;
 	timer = 0.0f;
 	this->strength = strength;
@@ -26,7 +37,9 @@ void Bomb::Update(float deltaTime)
 {
 	timer += deltaTime;
 	if (timer >= timeTilExplosion && !hasExploded)
+	{
 		Explode();
+	}
 }
 
 //Checks if there are any tiles that would block the explosions before spawning them
@@ -34,11 +47,13 @@ bool Bomb::SpawnExplosions(b2Vec2 startPoint, b2Vec2 endPoint, glm::vec2 spawnPo
 {
 	auto* physicsComponent = GetComponent<PhysicsComponent>();
 	b2Fixture* fixture = physicsComponent->Raycast(startPoint, endPoint);
+
 	if (fixture != nullptr)
 	{
 		b2BodyUserData& bodyData = fixture->GetBody()->GetUserData();
 		GameObject* object = reinterpret_cast<GameObject*>(bodyData.pointer);
 		std::string tag = object->GetTag();
+
 		if (tag == "WallTile" || tag == "EndTile")
 		{
 			return false;
@@ -68,6 +83,7 @@ void Bomb::Explode()
 {
 	if (hasExploded)
 		return;
+
 	hasExploded = true;
 	auto* physicsComponent = GetComponent<PhysicsComponent>();
 	auto* transformComponent = GetComponent<TransformComponent>();

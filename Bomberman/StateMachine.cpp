@@ -19,7 +19,9 @@ void StateMachine::SwitchState(std::unique_ptr<State> newState)
 void StateMachine::Update(float deltaTime)
 {
 	if (currentState != nullptr)
+	{
 		currentState->UpdateState(deltaTime);
+	}
 }
 
 void StateMachine::OnNotify(Event event)

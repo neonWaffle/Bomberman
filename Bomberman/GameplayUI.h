@@ -1,7 +1,6 @@
 #pragma once
 #include "TGUI/TGUI.hpp"
 #include "PlayerUIPanel.h"
-#include "EntityManager.h"
 
 class GameplayUI
 {

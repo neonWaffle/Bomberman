@@ -1,4 +1,5 @@
 #include "Subsystem.h"
+#include "EntityManager.h"
 
 Subsystem::Subsystem()
 {

@@ -1,10 +1,20 @@
 #include "BoxTile.h"
+#include "PickupSpeedBoost.h"
+#include "PickupExtraBomb.h"
+#include "PickupExplosionIncrease.h"
+#include "TransformComponent.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "TilemapConfig.h"
+#include "EntityManager.h"
+#include <random>
 
 BoxTile::BoxTile(glm::vec2 position) : GameObject("BoxTile")
 {
 	AddComponent(std::move(std::make_unique<TransformComponent>(position, 0.0f)));
 	AddComponent(std::move(std::make_unique<PhysicsComponent>(false, glm::vec2(TilemapConfig::tileSize * 0.5f, TilemapConfig::tileSize * 0.5f))));
 	AddComponent(std::move(std::make_unique<GraphicsComponent>("Assets/Sprites/Environment/box.png", 1, 1, TilemapConfig::tileSize, TilemapConfig::tileSize)));
+
 	isDestroyed = false;
 	pickupChance = 30;
 }

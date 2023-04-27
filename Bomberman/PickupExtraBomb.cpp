@@ -1,4 +1,7 @@
 #include "PickupExtraBomb.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "EntityManager.h"
 
 PickupExtraBomb::PickupExtraBomb(glm::vec2 position) : Pickup(position)
 {

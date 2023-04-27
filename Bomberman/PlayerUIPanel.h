@@ -6,7 +6,7 @@ class PlayerUIPanel : public Observer
 {
 private:
 	tgui::Panel::Ptr panel;
-	std::vector<tgui::Picture::Ptr> livesIndicators;
+	std::vector<tgui::Picture::Ptr> lifeIndicators;
 	int currentLives;
 	int playerId;
 	void UpdateLives();

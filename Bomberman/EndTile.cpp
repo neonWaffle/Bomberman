@@ -1,4 +1,8 @@
 #include "EndTile.h"
+#include "TransformComponent.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "TilemapConfig.h"
 
 EndTile::EndTile(glm::vec2 position) : GameObject("EndTile")
 {

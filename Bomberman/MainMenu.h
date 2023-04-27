@@ -1,8 +1,6 @@
 #pragma once
+#include "Subject.h"
 #include <TGUI/TGUI.hpp>
-#include "EntityManager.h"
-#include "TilemapManager.h"
-#include <filesystem>
 
 class MainMenu : public Subject
 {

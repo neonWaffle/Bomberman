@@ -1,4 +1,7 @@
 #include "PickupExplosionIncrease.h"
+#include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
+#include "EntityManager.h"
 
 PickupExplosionIncrease::PickupExplosionIncrease(glm::vec2 position) : Pickup(position)
 {

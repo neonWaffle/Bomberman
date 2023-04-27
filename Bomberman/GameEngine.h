@@ -1,15 +1,6 @@
 #pragma once
-#include "Player.h"
 #include "StateMachine.h"
-#include "AudioSubsystem.h"
-#include "GraphicsSubsystem.h"
-#include "PhysicsSubsystem.h"
-#include "InputHandler.h"
-#include "EntityManager.h"
-#include "TilemapManager.h"
-#include "MainMenu.h"
-#include "MainMenuState.h"
-#include "GameplayState.h"
+#include "Subsystem.h"
 #include <vector>
 #include <ctime>
 #include <chrono>

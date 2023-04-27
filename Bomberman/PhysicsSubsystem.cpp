@@ -1,4 +1,14 @@
 #include "PhysicsSubsystem.h"
+#include "Converter.h"
+#include "PhysicsComponent.h"
+#include "TransformComponent.h"
+#include "EntityManager.h"
+#include <box2d/b2_math.h>
+#include <box2d/b2_world.h>
+#include <box2d/b2_body.h>
+#include <box2d/b2_polygon_shape.h>
+#include <box2d/b2_fixture.h>
+#include <box2d/b2_draw.h>
 
 PhysicsSubsystem::PhysicsSubsystem()
 {
@@ -42,7 +52,9 @@ void PhysicsSubsystem::AddGameObject(GameObject& object)
 	auto* physicsComponent = object.GetComponent<PhysicsComponent>();
 	auto* transformComponent = object.GetComponent<TransformComponent>();
 	if (physicsComponent != nullptr && transformComponent != nullptr)
+	{
 		physicsComponent->SetPhysicsComponent(*world, transformComponent->GetPosition(), object);
+	}
 }
 
 void PhysicsSubsystem::RemoveGameObject(GameObject& object)

@@ -1,8 +1,5 @@
 #pragma once
 #include "State.h"
-#include "MainMenuState.h"
-#include "GameOverState.h"
-#include "TilemapManager.h"
 #include "GameplayUI.h"
 
 class GameplayState : public State
