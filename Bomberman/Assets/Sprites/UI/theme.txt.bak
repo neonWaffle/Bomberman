@@ -1,0 +1,108 @@
+Button {
+    Texture = "button.png";
+    TextColor = rgb(0, 0, 0);
+}
+
+ReturnButton {
+    Texture = "returnButton.png";
+}
+
+FileButton {
+	Texture = "fileButton.png";
+    TextColor = rgb(0, 0, 0);
+}
+
+Label {
+    TextColor = rgb(155, 155, 155);
+}
+
+ErrorMessage {
+    TextColor = rgb(255, 0, 0);
+}
+
+SuccessMessage {
+    TextColor = rgb(0, 255, 0);
+}
+
+Panel {
+    TextureBackground = "panel.png";
+}
+
+ScrollablePanel {
+	BackgroundColor = rgb(20, 20, 20);
+    TextureBackground = "editorPanel.png";
+	Scrollbar = &Scrollbar;
+	ScrollbarWidth = 30;
+}
+
+Scrollbar{
+	TextureArrowUp = "up.png";
+	TextureArrowDown = "down.png";
+	TextureThumb = "thumb.png";
+	TextureTrack = "track.png";
+}
+
+Timer {
+    TextColor = rgb(0, 0, 0);
+    TextureBackground = "banner.png";
+}
+
+Background {
+	TextureBackground = "background.png";
+}
+
+EditorPanel {
+	TextureBackground = "editorPanel.png";
+}
+
+EditorPanelVertical {
+	TextureBackground = "editorPanelVertical.png";
+}
+
+RedoButton {
+	Texture = "redoIcon.png";
+}
+
+MainMenuButton {
+	Texture = "homeIcon.png";
+}
+
+SaveButton {
+	Texture = "saveIcon.png";
+}
+
+LoadButton {
+	Texture = "loadIcon.png";
+}
+
+ConfirmButton {
+	Texture = "confirmButton.png";
+}
+
+WallTileButton {
+	Texture = "wallTile.png";
+}
+
+FloorTileButton {
+	Texture = "floorTile.png";
+}
+
+BoxTileButton {
+	Texture = "boxTile.png";
+}
+
+PlayerOneButton {
+	Texture = "playerOneIcon.png";
+}
+
+PlayerTwoButton {
+	Texture = "playerTwoIcon.png";
+}
+
+TextArea {
+    TextColor = rgb(0, 0, 0);
+}
+
+SquareButton {
+	Texture = "squareButton.png";
+}
