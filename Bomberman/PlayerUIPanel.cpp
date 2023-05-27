@@ -1,5 +1,7 @@
 #include "PlayerUIPanel.h"
 
+#include "Player.h"
+
 void PlayerUIPanel::UpdateLives()
 {
 	if (currentLives >= 1)

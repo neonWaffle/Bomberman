@@ -18,6 +18,7 @@ BoxTile::BoxTile(glm::vec2 position) : GameObject("BoxTile")
 	AddComponent(std::move(std::make_unique<GraphicsComponent>("Assets/Sprites/Environment/box.png", 1, 1, TilemapConfig::tileSize, TilemapConfig::tileSize)));
 
 	isBroken = false;
+
 	pickupChance = 30;
 }
 

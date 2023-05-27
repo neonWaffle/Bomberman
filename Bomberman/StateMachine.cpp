@@ -1,5 +1,7 @@
 #include "StateMachine.h"
 
+#include "State.h"
+
 StateMachine::StateMachine()
 {
 }

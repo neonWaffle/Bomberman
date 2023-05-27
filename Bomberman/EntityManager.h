@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Subject.h"
+#include "Observer.h"
 
 #include <vector>
 #include <queue>
@@ -17,11 +18,10 @@ private:
 
 	std::vector<GameObject*> objectsToRemove;
 	std::queue<std::unique_ptr<GameObject>> objectsToAdd;
-
 	std::vector<tgui::Widget::Ptr> guiElementsToAdd;
 	std::vector<tgui::Widget::Ptr> guiElementsToRemove;
-
 	bool removeAll = false;
+
 	EntityManager() = default;
 public:
 	std::vector<std::unique_ptr<GameObject>> gameObjects;

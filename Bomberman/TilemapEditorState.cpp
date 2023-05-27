@@ -1,9 +1,11 @@
 #include "TilemapEditorState.h"
 
+#include "StateMachine.h"
 #include "MainMenuState.h"
 #include "TilemapManager.h"
 #include "InputHandler.h"
 #include "EntityManager.h"
+#include "TilemapEditorUI.h"
 
 void TilemapEditorState::PlaceTile(glm::vec2 mousePos)
 {

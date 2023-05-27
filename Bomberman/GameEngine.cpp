@@ -4,7 +4,6 @@
 #include "AudioSubsystem.h"
 #include "GraphicsSubsystem.h"
 #include "PhysicsSubsystem.h"
-#include "InputHandler.h"
 #include "EntityManager.h"
 #include "TilemapManager.h"
 #include "MainMenuState.h"

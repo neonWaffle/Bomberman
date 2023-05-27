@@ -1,9 +1,10 @@
 #pragma once
 
 #include "State.h"
-#include "TilemapEditorUI.h"
 
 #include <glm.hpp>
+
+class TilemapEditorUI;
 
 class TilemapEditorState : public State
 {
@@ -18,7 +19,7 @@ public:
 	void EnterState() override;
 	void UpdateState(float deltaTime) override;
 	void ExitState() override;
-	
+
 	void OnNotify(Event event) override;
 };
 

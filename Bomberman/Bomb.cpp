@@ -20,6 +20,7 @@ Bomb::Bomb(glm::vec2 position, int strength) : GameObject("Bomb")
 	AddComponent(std::make_unique<GraphicsComponent>("Assets/Sprites/Objects/bomb.png", 1, 1, TilemapConfig::tileSize, TilemapConfig::tileSize));
 
 	auto graphicsComponent = GetComponent<GraphicsComponent>();
+
 	auto animation = std::make_unique<Animation>("Assets/Sprites/Objects/bomb.png", 3, 1, TilemapConfig::tileSize, TilemapConfig::tileSize, 0.8f);
 	graphicsComponent->AddAnimation("Idle", std::move(animation));
 	graphicsComponent->SwitchAnimation("Idle");
@@ -86,8 +87,10 @@ void Bomb::Explode()
 		return;
 
 	hasExploded = true;
+
 	auto physicsComponent = GetComponent<PhysicsComponent>();
 	auto transformComponent = GetComponent<TransformComponent>();
+
 	auto spawnPos = transformComponent->GetPosition();
 	auto explosion = std::make_unique<Explosion>(spawnPos);
 	EntityManager::GetInstance()->AddGameObject(std::move(explosion));
@@ -96,8 +99,10 @@ void Bomb::Explode()
 	{
 		b2Vec2 startPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x - (i - 1) * TilemapConfig::tileSize), 
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y));
+
 		b2Vec2 endPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x - i * TilemapConfig::tileSize),
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y));
+
 		if (!SpawnExplosions(startPoint, endPoint, glm::vec2(Converter::PhysicsToGraphics(endPoint.x), Converter::PhysicsToGraphics(endPoint.y))))
 			break;
 	}
@@ -106,8 +111,10 @@ void Bomb::Explode()
 	{
 		b2Vec2 startPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x + (i - 1) * TilemapConfig::tileSize),
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y));
+
 		b2Vec2 endPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x + i * TilemapConfig::tileSize),
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y));
+
 		if (!SpawnExplosions(startPoint, endPoint, glm::vec2(Converter::PhysicsToGraphics(endPoint.x), Converter::PhysicsToGraphics(endPoint.y))))
 			break;
 	}
@@ -116,8 +123,10 @@ void Bomb::Explode()
 	{
 		b2Vec2 startPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x),
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y - (i - 1) * TilemapConfig::tileSize));
+
 		b2Vec2 endPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x),
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y - i * TilemapConfig::tileSize));
+
 		if (!SpawnExplosions(startPoint, endPoint, glm::vec2(Converter::PhysicsToGraphics(endPoint.x), Converter::PhysicsToGraphics(endPoint.y))))
 			break;
 	}
@@ -126,8 +135,10 @@ void Bomb::Explode()
 	{
 		b2Vec2 startPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x),
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y + (i - 1) * TilemapConfig::tileSize));
+
 		b2Vec2 endPoint = b2Vec2(Converter::GraphicsToPhysics(transformComponent->GetPosition().x),
 			Converter::GraphicsToPhysics(transformComponent->GetPosition().y + i * TilemapConfig::tileSize));
+
 		if (!SpawnExplosions(startPoint, endPoint, glm::vec2(Converter::PhysicsToGraphics(endPoint.x), Converter::PhysicsToGraphics(endPoint.y))))
 			break;
 	}

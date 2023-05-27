@@ -1,6 +1,9 @@
 #pragma once
+
 #include "TGUI/TGUI.hpp"
-#include "PlayerUIPanel.h"
+
+class PlayerUIPanel;
+class Player;
 
 class GameplayUI
 {
@@ -9,6 +12,7 @@ private:
 	tgui::Label::Ptr timer;
 public:
 	GameplayUI(std::vector<Player*> players);
+	~GameplayUI();
 
 	void Open();
 	void Close();

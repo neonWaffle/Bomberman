@@ -1,9 +1,11 @@
 #pragma once
+
 #include "Observer.h"
 #include "Subject.h"
-#include "StateMachine.h"
-#include <SFML/Graphics.hpp>
+
 #include <memory>
+
+#include <SFML/Graphics.hpp>
 
 class StateMachine;
 

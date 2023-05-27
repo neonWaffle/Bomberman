@@ -19,7 +19,7 @@ private:
 	
 	std::vector<std::vector<char>> currentTilemap;
 	std::vector<std::vector<GameObject*>> tilemapObjects;
-	
+
 	int xFillId;
 	int yFillId;
 	int xFillLoops;

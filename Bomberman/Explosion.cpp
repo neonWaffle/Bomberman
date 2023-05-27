@@ -17,6 +17,7 @@ Explosion::Explosion(glm::vec2 position) : GameObject("Explosion")
 	AddComponent(std::move(std::make_unique<GraphicsComponent>("Assets/Sprites/Objects/bombExplosion.png", 8, 1, TilemapConfig::tileSize, TilemapConfig::tileSize)));
 
 	auto graphicsComponent = GetComponent<GraphicsComponent>();
+
 	auto animation = std::make_unique<Animation>("Assets/Sprites/Objects/bombExplosion.png", 8, 1, TilemapConfig::tileSize, TilemapConfig::tileSize, duration, false);
 	graphicsComponent->AddAnimation("Explode", std::move(animation));
 	graphicsComponent->SwitchAnimation("Explode");

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Player.h"
 
 class Pickup : public GameObject
@@ -8,6 +9,7 @@ protected:
 public:
 	Pickup(glm::vec2 position);
 	virtual ~Pickup();
+
 	virtual void GetPickedUp(Player& player) = 0;
 };
 

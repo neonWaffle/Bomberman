@@ -6,6 +6,8 @@
 #include "TilemapConfig.h"
 #include "EntityManager.h"
 #include "GameplayUI.h"
+#include "Player.h"
+#include "StateMachine.h"
 
 GameplayState::GameplayState(std::shared_ptr<StateMachine> stateMachine, std::shared_ptr<sf::RenderWindow> window) : State(stateMachine, window)
 {

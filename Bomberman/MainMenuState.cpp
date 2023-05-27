@@ -4,6 +4,7 @@
 #include "GameplayState.h"
 #include "TilemapManager.h"
 #include "MainMenu.h"
+#include "StateMachine.h"
 
 MainMenuState::MainMenuState(std::shared_ptr<StateMachine> stateMachine, std::shared_ptr<sf::RenderWindow> window) : State(stateMachine, window)
 {

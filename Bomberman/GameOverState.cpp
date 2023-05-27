@@ -1,5 +1,6 @@
 #include "GameOverState.h"
 
+#include "StateMachine.h"
 #include "GameplayState.h"
 #include "MainMenuState.h"
 #include "TilemapManager.h"

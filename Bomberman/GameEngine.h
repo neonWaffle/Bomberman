@@ -9,8 +9,6 @@
 class StateMachine;
 class Subsystem;
 
-using namespace std::chrono;
-
 class GameEngine
 {
 private:
@@ -19,8 +17,8 @@ private:
 	std::vector<std::unique_ptr<Subsystem>> subsystems;
 
 	float deltaTime;
-	high_resolution_clock::time_point currentTime;
-	high_resolution_clock::time_point prevTime;
+	std::chrono::high_resolution_clock::time_point currentTime;
+	std::chrono::high_resolution_clock::time_point prevTime;
 public:
 	GameEngine();
 	~GameEngine();

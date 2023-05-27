@@ -18,7 +18,7 @@ private:
 public:
 	MainMenu();
 	~MainMenu();
-	
+
 	void Open();
 	void Close();
 };

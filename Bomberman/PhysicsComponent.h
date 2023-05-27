@@ -27,7 +27,7 @@ private:
 public:
 	PhysicsComponent(bool isDynamic, glm::vec2 size, bool isTrigger = false, bool isBox = true, float friction = 0.3f, float density = 1.0f);
 	virtual ~PhysicsComponent();
-	
+
 	void SetPhysicsComponent(b2World& world, glm::vec2 position, GameObject& object);
 	void Move(glm::vec2 velocity);
 	glm::vec2 GetPosition();

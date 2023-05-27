@@ -8,6 +8,7 @@ class GraphicsSubsystem : public Subsystem
 {
 private:
 	std::shared_ptr<sf::RenderWindow> window;
+
 	std::unique_ptr<tgui::GuiSFML> gui;
 	std::vector<tgui::Widget::Ptr> guiElements;
 public:

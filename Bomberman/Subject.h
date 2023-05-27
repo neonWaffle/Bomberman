@@ -1,10 +1,13 @@
 #pragma once
+
 #include "Event.h"
-#include "Observer.h"
+
 #include <vector>
+
 #include <TGUI/TGUI.hpp>
 
 class GameObject;
+class Observer;
 
 class Subject
 {

@@ -1,7 +1,9 @@
 #include "GameplayUI.h"
 
 #include "EntityManager.h"
+#include "PlayerUIPanel.h"
 #include "TilemapConfig.h"
+#include "Player.h"
 
 GameplayUI::GameplayUI(std::vector<Player*> players)
 {
@@ -35,6 +37,10 @@ GameplayUI::GameplayUI(std::vector<Player*> players)
 	timer->setOrigin(0.5f, 0.5f);
 	timer->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 	timer->setVerticalAlignment(tgui::Label::VerticalAlignment::Top);
+}
+
+GameplayUI::~GameplayUI()
+{
 }
 
 void GameplayUI::Open()

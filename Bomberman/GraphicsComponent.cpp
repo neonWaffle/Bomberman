@@ -15,12 +15,12 @@ GraphicsComponent::GraphicsComponent(const std::string& pathName, int xSprites, 
 
 	sprite = std::make_unique<sf::Sprite>(*texture, sf::IntRect(0, 0, spriteWidth, spriteHeight));
 	sprite->setPosition(0.0f, 0.0f);
+	sprite->setOrigin(spriteWidth * 0.5f, spriteHeight * 0.5f);
 
 	float xScale = (float)targetWidth / spriteWidth;
 	float yScale = (float)targetHeight / spriteHeight;
 
 	sprite->setScale(xScale, yScale);
-	sprite->setOrigin(spriteWidth / 2.0f, spriteHeight / 2.0f);
 }
 
 GraphicsComponent::~GraphicsComponent()

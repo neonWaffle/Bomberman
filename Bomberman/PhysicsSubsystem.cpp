@@ -43,6 +43,7 @@ void PhysicsSubsystem::Update(float deltaTime)
 		{
 			auto physicsComponent = object->GetComponent<PhysicsComponent>();
 			auto transformComponent = object->GetComponent<TransformComponent>();
+
 			if (physicsComponent != nullptr && transformComponent != nullptr)
 			{
 				auto pos = physicsComponent->GetPosition();

@@ -1,5 +1,7 @@
 #pragma once
+
 #include "Subject.h"
+
 #include <TGUI/TGUI.hpp>
 
 class GameOverScreen : public Subject

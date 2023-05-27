@@ -1,5 +1,8 @@
 #pragma once
+
 #include "Pickup.h"
+
+class Player;
 
 class PickupSpeedBoost : public Pickup
 {
@@ -8,6 +11,7 @@ private:
 public:
 	PickupSpeedBoost(glm::vec2 position);
 	virtual ~PickupSpeedBoost();
+
 	void GetPickedUp(Player& player) override;
 };
 

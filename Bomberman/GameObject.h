@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Component.h"
 
 #include <vector>
@@ -30,7 +31,9 @@ inline T* GameObject::GetComponent()
 	{
 		T* component = dynamic_cast<T*>(components[i].get());
 		if (component != nullptr)
+		{
 			return component;
+		}
 	}
 	return nullptr;
 }

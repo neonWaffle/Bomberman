@@ -1,6 +1,10 @@
 #pragma once
+
+#include "Observer.h"
+
 #include "TGUI/TGUI.hpp"
-#include "Player.h"
+
+class GameObject;
 
 class PlayerUIPanel : public Observer
 {

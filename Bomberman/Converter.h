@@ -1,6 +1,6 @@
 #pragma once
 
-static class Converter
+class Converter
 {
 private:
 	static float scale;

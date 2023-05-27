@@ -1,4 +1,5 @@
 #pragma once
+
 #include "box2d.h"
 
 class RaycastCallback : public b2RayCastCallback

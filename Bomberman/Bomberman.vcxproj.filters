@@ -150,9 +150,12 @@
     <ClCompile Include="TilemapManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+=======
+>>>>>>> 42710bf92e0a6483ad4af24e3dda81708d1e6215
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -290,8 +293,11 @@
     <ClInclude Include="TilemapManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="ResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+>>>>>>> 42710bf92e0a6483ad4af24e3dda81708d1e6215
   </ItemGroup>
 </Project>

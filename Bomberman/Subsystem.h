@@ -16,6 +16,6 @@ public:
 
 	virtual void AddGameObject(GameObject& object);
 	virtual void RemoveGameObject(GameObject& object);
-	
+
 	virtual void OnNotify(Event event, GameObject& object);
 };
